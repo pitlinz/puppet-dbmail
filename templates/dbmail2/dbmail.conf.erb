@@ -1,0 +1,134 @@
+# (c) 2000-2006 IC&S, The Netherlands 
+#
+# Configuration file for DBMAIL 
+# 
+# see /usr/src/packages/dbmail-2.2.18/dbmail.conf for details documentation
+
+[DBMAIL] 
+# Database settings
+driver               = <%= dbdriver %>
+authdriver           = <%= authdriver %>
+# 
+host                 = <%= dbhost %>             
+sqlport              = <%= sqlport %>               
+sqlsocket            = <%= sqlsocket %>              
+#
+user                 = <%= dbuser %>        
+pass                 = <%= dbpassword %>              
+db                   = <%= dbname %>              
+table_prefix         = <%= tblprefix %> 
+
+encoding             = <%= encoding %>
+# messages with unknown encoding will be assumed to have 
+default_msg_encoding = utf8
+
+# 
+# Postmaster's email address for use in bounce messages.
+#
+#postmaster           = DBMAIL-MAILER       
+sendmail              = /usr/sbin/sendmail     
+
+#
+# The following items can be overridden in the service-specific sections.
+#
+TRACE_SYSLOG          = 3
+TRACE_STDERR          = 1          
+EFFECTIVE_USER        = nobody   
+EFFECTIVE_GROUP       = nogroup 
+BINDIP                = <%= bindip %>               
+
+NCHILDREN             = 2             
+MAXCHILDREN           = 10          
+MINSPARECHILDREN      = 2      
+MAXSPARECHILDREN      = 4      
+MAXCONNECTS           = 10000       
+MAX_ERRORS            = 500          
+TIMEOUT               = 300             
+login_timeout         = 60
+
+RESOLVE_IP            = no
+logfile               = /var/log/dbmail.log        
+errorlog              = /var/log/dbmail.err        
+
+pid_directory         = /var/run
+state_directory       = /var/run
+
+
+# directory for locating libraries (normally has a sane default compiled-in)
+#library_directory       = /usr/lib/dbmail
+
+
+# log slow queries at level INFO after n seconds
+query_time_info       = 10
+
+# log slow queries at level MESSAGE after n seconds
+query_time_message    = 20
+
+# log slow queries at level WARNING after n seconds
+query_time_warning    = 30
+
+
+[SMTP]                   
+
+[LMTP]
+PORT                  = 24                 
+
+[POP]
+PORT                  = 110                
+POP_BEFORE_SMTP       = <%=  popbeforesmtp%>      
+
+[IMAP]
+PORT                  = 143                
+# IMAP prefers a longer timeout than other services.
+TIMEOUT               = 1800            
+IMAP_BEFORE_SMTP      = <%= imapbeforesmtp %>     
+
+# during IDLE, how many seconds between checking the mailbox status (default: 30)
+# idle_timeout          = 30
+
+# Provide a CAPABILITY to override the default
+# capability 		= IMAP4 IMAP4rev1 AUTH=LOGIN ACL NAMESPACE CHILDREN SORT QUOTA THREAD=ORDEREDSUBJECT UNSELECT IDLE
+
+[SIEVE]
+PORT                  = 2000               
+
+[LDAP]
+PORT                  = 389
+VERSION               = 3
+HOSTNAME              = ldap
+BASE_DN               = ou=People,dc=mydomain,dc=com
+BIND_DN               = 
+BIND_PW               = 
+SCOPE                 = SubTree
+REFERRALS             = yes
+
+USER_OBJECTCLASS      = top,account,dbmailUser
+FORW_OBJECTCLASS      = top,account,dbmailForwardingAddress
+CN_STRING             = uid
+FIELD_PASSWD          = userPassword
+FIELD_UID             = uid
+FIELD_NID             = uidNumber
+MIN_NID               = 10000
+MAX_NID               = 15000
+FIELD_CID             = gidNumber
+MIN_CID               = 10000
+MAX_CID               = 15000
+FIELD_MAIL            = mail
+FIELD_QUOTA           = mailQuota
+FIELD_FWDTARGET       = mailForwardingAddress
+
+[DELIVERY]
+SIEVE                 = yes               
+SUBADDRESS            = yes          
+SIEVE_VACATION        = yes      
+SIEVE_NOTIFY          = yes
+SIEVE_DEBUG           = no          
+AUTO_NOTIFY           = no          
+AUTO_REPLY            = no           
+#AUTO_NOTIFY_SUBJECT   =    
+#AUTO_NOTIFY_SENDER    =   
+
+suppress_duplicates	= no
+
+# end of configuration file
+
