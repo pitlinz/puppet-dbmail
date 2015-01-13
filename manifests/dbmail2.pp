@@ -20,7 +20,9 @@ class dbmail::dbmail2 (
   $bindip     = '*',
   
   $popbeforesmtp  = 'yes',
-  $imapbeforesmtp = 'yes',  
+  $imapbeforesmtp = 'yes',
+  
+  $sbinpath     = "/usr/local/sbin"  
 ) {
   class {"dbmail::dbmail2::requirements":
   }
@@ -59,4 +61,5 @@ class dbmail::dbmail2 (
     require => File["/etc/init.d/dbmail"],
     target => "/etc/init.d/dbmail"
   }
+        
 }
